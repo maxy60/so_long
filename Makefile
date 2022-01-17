@@ -1,4 +1,5 @@
-SRCS		=
+SRCS		= src/get_next_line.c		\
+			  src/get_next_line_utils.c	\
 			  
 
 OBJS		= ${SRCS:.c=.o}
@@ -21,7 +22,7 @@ ${NAME}:	$(OBJS)
 			gcc -L./libft/ $(CCFLAGS) $(OBJS) ./libft/libft.a -o $(NAME)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@ -I
+	$(CC) $(CFLAGS) -c $< -o $@ -Imlx_linux
 clean:	
 					$(MAKE) clean -C ./libft
 					rm -f ${OBJS}
