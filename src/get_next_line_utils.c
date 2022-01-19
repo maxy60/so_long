@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msainton <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: msainton <msainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/10 10:59:12 by msainton          #+#    #+#             */
-/*   Updated: 2022/01/17 17:45:36 by msainton         ###   ########.fr       */
+/*   Updated: 2022/01/19 15:54:22 by msainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../so_long.h"
 
 size_t	ft_strlen(const char *str)
 {
@@ -21,7 +22,7 @@ size_t	ft_strlen(const char *str)
 	return (a);
 }
 
-char	*ft_strjoin(const char *s1, const char *s2)
+char	*ft_strjoin_g(const char *s1, const char *s2)
 {
 	char	*dest;
 	size_t	a;

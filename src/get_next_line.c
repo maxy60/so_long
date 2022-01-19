@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msainton <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: msainton <msainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/10 10:56:21 by msainton          #+#    #+#             */
-/*   Updated: 2022/01/17 17:45:30 by msainton         ###   ########.fr       */
+/*   Updated: 2022/01/19 15:54:42 by msainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+#include "../so_long.h"
 
 static int	check(char *str)
 {
@@ -76,7 +76,7 @@ char	*get_next_line(int fd)
 		if (ret == -1)
 			return (ft_error(dest));
 		buf[ret] = '\0';
-		dest = ft_strjoin(dest, buf);
+		dest = ft_strjoin_g(dest, buf);
 	}
 	line = stock_line(dest, ret);
 	dest = stock_rest(dest);

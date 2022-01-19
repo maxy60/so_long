@@ -1,4 +1,6 @@
-SRCS		= so_long.c					\
+SRCS		= src/so_long.c				\
+			  src/get_next_line_utils.c	\
+			  src/get_next_line.c		\
 
 OBJS		= ${SRCS:.c=.o} 
 
