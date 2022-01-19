@@ -1,8 +1,6 @@
 SRCS		= so_long.c					\
-			  
 
-OBJS		= ${SRCS:.c=.o}
-
+OBJS		= ${SRCS:.c=.o} 
 
 NAME		= so_long
 
@@ -11,19 +9,19 @@ CC			= gcc
 
 CCFLAGS	= -g3 -Wall -Werror -Wextra
 
-FLAGS 	= -ldl -Imlx -Lmlx -lmlx -lm -lz -lXext -lX11 -Wl,-rpath=./bass/,-rpath=./mlx/,-rpath=./delay/
+LIB		= -L mlx -l mlx -l mlx_Linux -lX11 -lXext -L libft -l ft
 
-INCLUDES	= -I./includes -I./libft
+INCLUDES	= -I./libft
+
+%.o: %.c 
+		$(CC) $(CCFLAGS) $(INCLUDES) -c $< -o $@
 
 all:		${NAME}
 
 
 ${NAME}:	$(OBJS)
-			$(MAKE) bonus -C ./libft
-			gcc -L./libft/ $(CCFLAGS) $(OBJS) ./libft/libft.a -o $(NAME) $(FLAGS)
-
-%.o: %.c
-	$(CC) $(CCFLAGS) -c $< -o $@ -Imlx -Ibass
+			make bonus -C ./libft
+			$(CC) $(CCFLAGS) $(OBJS) $(LIB) -o $(NAME)
 
 clean:	
 					$(MAKE) clean -C ./libft
