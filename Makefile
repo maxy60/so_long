@@ -1,4 +1,5 @@
 SRCS		= src/so_long.c				\
+			  src/parse.c				\
 			  src/get_next_line_utils.c	\
 			  src/get_next_line.c		\
 
@@ -7,7 +8,7 @@ OBJS		= ${SRCS:.c=.o}
 NAME		= so_long
 
 
-CC			= gcc
+CC			= clang
 
 CCFLAGS	= -g3 -Wall -Werror -Wextra
 

@@ -6,7 +6,7 @@
 /*   By: msainton <msainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 11:51:44 by msainton          #+#    #+#             */
-/*   Updated: 2022/01/19 15:59:53 by msainton         ###   ########.fr       */
+/*   Updated: 2022/01/20 17:03:36 by msainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 # define SO_LONG_H
 
 # include <stdlib.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <fcntl.h>
 # include <stdio.h>
 # include "libft.h"
 # include "mlx/mlx.h"
@@ -23,9 +26,19 @@
 # define WINDOW_HEIGHT 300
 # define MLX_ERROR 1
 
+typedef struct s_map
+{
+    int     l;
+    int     c;
+    char    *line;
+}   t_map;
+
 char    *stock_line(char *dest, int ret);
 char    *stock_rest(char *dest);
+char    *get_next_line(int fd);
 char	*ft_strjoin_g(const char *s1, const char *s2);
-int main(int ac, char **av);
+void	initialise(t_map *map);
+void	size_map(int fd, t_map *map);
+int     main(int ac, char **av);
 
 #endif

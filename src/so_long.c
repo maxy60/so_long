@@ -31,7 +31,6 @@ int	handle_keypress(int keysym, t_data *data)
 int	handle_keyrelease(int keysym, void *data)
 {
 	(void)data;
-	ft_putstr("test");
 	printf("Keyrelease: %d\n", keysym);
 	return (0);
 }
@@ -55,18 +54,27 @@ int try(t_data *data)
 
 	mlx_destroy_display(data->mlx_ptr);
 	free(data->mlx_ptr);
+	exit(0);
 	return (0);
 }
 
 int main(int ac, char **av)
 {
-	t_data data;
+	t_data	data;
+	t_map	map;
+	int		fd;
 
+	initialise(&map);
 	if (ac == 2)
 	{
+		fd = open(av[1], O_RDONLY);
+		if (fd < 0)
+			ft_putstr_fd("Error\n", 2);
+		size_map(fd, &map);
 		try(&data);
-		get_next_line(av[2]);
+		close(fd);
 	}
-	printf("number of argue is wrong");
+	else
+		printf("number of arg is wrong");
 	return (0);
 }
