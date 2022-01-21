@@ -6,7 +6,7 @@
 /*   By: msainton <msainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 11:51:44 by msainton          #+#    #+#             */
-/*   Updated: 2022/01/20 17:03:36 by msainton         ###   ########.fr       */
+/*   Updated: 2022/01/21 15:59:30 by msainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,12 @@ typedef struct s_map
 
 char    *stock_line(char *dest, int ret);
 char    *stock_rest(char *dest);
+char    *ft_error(char *dest);
 char    *get_next_line(int fd);
 char	*ft_strjoin_g(const char *s1, const char *s2);
 void	initialise(t_map *map);
-void	size_map(int fd, t_map *map);
+int		n_line(char **av);
+void	parse(char **av);
 int     main(int ac, char **av);
 
 #endif

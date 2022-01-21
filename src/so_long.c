@@ -60,21 +60,13 @@ int try(t_data *data)
 
 int main(int ac, char **av)
 {
-	t_data	data;
-	t_map	map;
-	int		fd;
-
-	initialise(&map);
+	//t_data	data;
 	if (ac == 2)
 	{
-		fd = open(av[1], O_RDONLY);
-		if (fd < 0)
-			ft_putstr_fd("Error\n", 2);
-		size_map(fd, &map);
-		try(&data);
-		close(fd);
+		parse(av);
+		//try(&data);
 	}
 	else
-		printf("number of arg is wrong");
+		printf("Error: usage: ./so_long <map.ber>\n");
 	return (0);
 }
