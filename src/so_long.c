@@ -60,11 +60,11 @@ int try(t_data *data)
 
 int main(int ac, char **av)
 {
-	//t_data	data;
+	t_data	data;
 	if (ac == 2)
 	{
 		parse(av);
-		//try(&data);
+		try(&data);
 	}
 	else
 		printf("Error: usage: ./so_long <map.ber>\n");

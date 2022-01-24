@@ -6,7 +6,7 @@
 /*   By: msainton <msainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 15:57:41 by msainton          #+#    #+#             */
-/*   Updated: 2022/01/21 16:54:10 by msainton         ###   ########.fr       */
+/*   Updated: 2022/01/24 16:59:37 by msainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,29 +27,62 @@ int	n_line(char **av)
 		ret = read(fd, buf, 1);
 		if (ret == -1)
 			return (-1);
-		if (buf[0] == '\n')
+		if (buf[0] == '\n' || buf[0] == '\0')
 			count++;
 	}
 	close(fd);
 	return (count);
 }
 
-void	parse(char **av)
+int		size_line(char **av)
 {
-	char *line;
+	int		fd;
+	int		count;
+	char	*line;
+
+	count = 0;
+	fd = open(av[1], O_RDONLY);
+	line = get_next_line(fd);
+	while (line[count])
+		count++;
+	free(line);
+	return (count);
+}
+
+void	free_map(char **map)
+{
+	int i;
+
+	i = 0;
+	while (map[i])
+	{
+		free(map[i]);
+		i++;
+	}
+	free(map);
+	return ;
+}
+
+char	**parse(char **av)
+{
+	char **map;
 	int fd = 0;
 	int l;
 	
 	l = 0;
+	map = (char **)malloc(sizeof(char *) * (n_line(av) + 1));
+	if (!map)
+		return(NULL);
 	fd = open(av[1], O_RDONLY);
 	if (fd < 0)
 		ft_putstr_fd("Error\n", 2);
 	while (l < n_line(av))
 	{
-		line = get_next_line(fd);
-		printf("%s", line);
-		free(line);
+		map[l] = get_next_line(fd);
 		l++;
 	}
+	map[l] = NULL;
+	free_map(map);
 	close(fd);
+	return (map);
 }

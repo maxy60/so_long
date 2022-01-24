@@ -6,7 +6,7 @@
 /*   By: msainton <msainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/10 10:56:21 by msainton          #+#    #+#             */
-/*   Updated: 2022/01/21 17:00:11 by msainton         ###   ########.fr       */
+/*   Updated: 2022/01/24 16:19:43 by msainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static char	*retgnl(char **dest, char *line, int ret)
 
 char	*get_next_line(int fd)
 {
-	char		buf[1];
+	char		buf[15];
 	static char	*dest;
 	char		*line;
 	int			ret;
@@ -72,10 +72,10 @@ char	*get_next_line(int fd)
 	}
 	while (check(dest) == 0 && ret > 0)
 	{
-		ret = read(fd, buf, 1);
+		ret = read(fd, buf, 15);
 		if (ret == -1)
 			return (ft_error(dest));
-		//buf[ret] = '\0';
+		buf[ret] = '\0';
 		dest = ft_strjoin_g(dest, buf);
 	}
 	line = stock_line(dest, ret);
