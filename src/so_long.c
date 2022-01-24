@@ -6,6 +6,28 @@ typedef struct s_data
 	void	*win_ptr;
 }	t_data;
 
+/*typedef struct s_img
+{
+	int		width;
+	int		height;
+	void	*img;
+}	t_img;
+
+static void init(t_img *test)
+{
+	test->img = NULL;
+	test->width = 0;
+	test->height = 0;
+}*/
+
+
+
+
+
+
+
+
+
 int	handle_no_event(void *data)
 {
 	(void)data;
@@ -37,6 +59,8 @@ int	handle_keyrelease(int keysym, void *data)
 
 int try(t_data *data)
 {
+	//t_img *test;
+	//initialise(test);
 	data->mlx_ptr = mlx_init();
 	if (data->mlx_ptr == NULL)
 		return (MLX_ERROR);
@@ -47,6 +71,7 @@ int try(t_data *data)
 		return (MLX_ERROR);
 	}
 	mlx_loop_hook(data->mlx_ptr, &handle_no_event, data);
+	//test->img = mlx_xpm_file_to_image(data->mlx_ptr, "./textures/rouge.xpm", &test->width, &test->height);
 	mlx_key_hook(data->win_ptr, &handle_input, data);
 	mlx_hook(data->win_ptr, KeyPress, KeyPressMask, &handle_keypress, data);
 	mlx_hook(data->win_ptr, KeyRelease, KeyReleaseMask, &handle_keyrelease, data);
