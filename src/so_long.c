@@ -1,11 +1,11 @@
 #include "../so_long.h"
 
-/*void	init_img(t_img *test)
+void	init_img(t_img *test)
 {
 	test->img = NULL;
 	test->width = 0;
 	test->height = 0;
-}*/
+}
 
 int	handle_no_event(void *data)
 {
@@ -36,29 +36,42 @@ int	handle_keyrelease(int keysym, void *data)
 	return (0);
 }
 
-/*int put_img(t_data *data)
+void	put_img(t_data *data, int w, int h)
 {
-	data->mob_face.img = mlx_xpm_file_to_image(data->mlx_ptr, "./textures/mob_face.xpm", &data->mob_face.width, &data->mob_face.height);
-	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->mob_face.img, 0, 0);
+	data->mob_face.img = mlx_xpm_file_to_image(data->mlx_ptr, "./textures/floor.XPM", &data->mob_face.width, &data->mob_face.height);
+	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->mob_face.img, w, h);
 	mlx_destroy_image(data->mlx_ptr, data->mob_face.img);
 }
 
 int	do_map(t_data *data, char **av)
 {
 	int	i;
+	int	j;
+	int	w;
+	int	h;
 	char **map;
+	int	line = n_line(av);
 
 	i = 0;
+	j = 0;
 	map = parse(av);
-	while (map[0][i])
+	put_img(data, 0, 0);
+	put_img(data, 1088, 0);
+	while (j < line)
 	{
-		if (map[0][i] != 1)
-			return (-1);
-		else
-			put_img(data);
-		i++;
+		h = 64 * j;
+		i = 0;
+		while (map[j][i])
+		{
+			w = 64 * i;
+			put_img(data, w, h);
+			i++;
+		}
+		j++;
 	}
-}*/
+	free_map(map);
+	return (0);
+}
 
 void	create_window(t_data *data, char **av)
 {
@@ -79,8 +92,8 @@ int try(t_data *data, char **av)
 		return (MLX_ERROR);
 	}
 	mlx_loop_hook(data->mlx_ptr, &handle_no_event, data);
-	//do_map(data);
-	//data->mob_face.img = mlx_xpm_file_to_image(data->mlx_ptr, "./textures/mob_face.xpm", &data->mob_face.width, &data->mob_face.height);
+	do_map(data, av);
+	//data->mob_face.img = mlx_xpm_file_to_image(data->mlx_ptr, "./textures/mob_face.XPM", &data->mob_face.width, &data->mob_face.height);
 	//mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->mob_face.img, 0, 0);
 	mlx_key_hook(data->win_ptr, &handle_input, data);
 	mlx_hook(data->win_ptr, KeyPress, KeyPressMask, &handle_keypress, data);
@@ -88,7 +101,7 @@ int try(t_data *data, char **av)
 	mlx_loop(data->mlx_ptr);
 
 	//mlx_destroy_image(data->mlx_ptr, data->mob_face.img);
-	mlx_destroy_window(data->mlx_ptr, data->win_ptr);
+	//mlx_destroy_window(data->mlx_ptr, data->win_ptr);
 	mlx_destroy_display(data->mlx_ptr);
 	free(data->mlx_ptr);
 	exit(0);
@@ -97,12 +110,12 @@ int try(t_data *data, char **av)
 
 int main(int ac, char **av)
 {
-	//t_img	test;
+	t_img	test;
 	t_data	data;
-	//init_img(&test);
+	init_img(&test);
 	if (ac == 2)
 	{
-		parse(av);
+		//parse(av);
 		try(&data, av);
 	}
 	else

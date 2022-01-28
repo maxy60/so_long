@@ -6,7 +6,7 @@
 /*   By: msainton <msainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 15:57:41 by msainton          #+#    #+#             */
-/*   Updated: 2022/01/24 16:59:37 by msainton         ###   ########.fr       */
+/*   Updated: 2022/01/28 12:17:35 by msainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ char	**parse(char **av)
 		l++;
 	}
 	map[l] = NULL;
-	free_map(map);
+	//free_map(map);
 	close(fd);
 	return (map);
 }

@@ -6,7 +6,7 @@
 /*   By: msainton <msainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 11:51:44 by msainton          #+#    #+#             */
-/*   Updated: 2022/01/27 16:27:14 by msainton         ###   ########.fr       */
+/*   Updated: 2022/01/28 11:51:23 by msainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ char    *get_next_line(int fd);
 char	*ft_strjoin_g(const char *s1, const char *s2);
 int		n_line(char **av);
 int     size_line(char **av);
+void	free_map(char **map);
 char	**parse(char **av);
 int     main(int ac, char **av);
 
