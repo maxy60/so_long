@@ -6,7 +6,7 @@
 /*   By: msainton <msainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 11:51:44 by msainton          #+#    #+#             */
-/*   Updated: 2022/01/28 11:51:23 by msainton         ###   ########.fr       */
+/*   Updated: 2022/01/28 17:42:08 by msainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef struct s_data
 	void	*win_ptr;
     int     x;
     int     y;
-	t_img	mob_face;
+	t_img	image;
 }   t_data;
 
 char    *stock_line(char *dest, int ret);
@@ -46,9 +46,10 @@ char    *stock_rest(char *dest);
 char    *ft_error(char *dest);
 char    *get_next_line(int fd);
 char	*ft_strjoin_g(const char *s1, const char *s2);
-int		n_line(char **av);
+int		nbr_line(char **av);
 int     size_line(char **av);
 void	free_map(char **map);
+void	put_img(t_data *data, int w, int h, char *textures);
 char	**parse(char **av);
 int     main(int ac, char **av);
 

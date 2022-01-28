@@ -10,7 +10,7 @@ NAME		= so_long
 
 CC			= clang
 
-CCFLAGS	= -g3 -Wall -Werror -Wextra
+CCFLAGS	= -g3 -Wall -Werror -Wextra -D BUFFER_SIZE=1
 
 LIB		= -L mlx -l mlx -l mlx_Linux -lX11 -lXext -L libft -l ft
 

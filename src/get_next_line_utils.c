@@ -6,23 +6,13 @@
 /*   By: msainton <msainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/10 10:59:12 by msainton          #+#    #+#             */
-/*   Updated: 2022/01/24 15:13:24 by msainton         ###   ########.fr       */
+/*   Updated: 2022/01/28 15:41:41 by msainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../so_long.h"
 
-size_t	ft_strlen(const char *str)
-{
-	size_t	a;
-
-	a = 0;
-	while (str[a])
-		a++;
-	return (a);
-}
-
-char	*ft_strjoin_g(const char *s1, const char *s2)
+char	*ft_strjoin(const char *s1, const char *s2)
 {
 	char	*dest;
 	size_t	a;

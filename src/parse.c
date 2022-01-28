@@ -6,13 +6,13 @@
 /*   By: msainton <msainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 15:57:41 by msainton          #+#    #+#             */
-/*   Updated: 2022/01/28 12:17:35 by msainton         ###   ########.fr       */
+/*   Updated: 2022/01/28 17:19:57 by msainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../so_long.h"
 
-int	n_line(char **av)
+int	nbr_line(char **av)
 {
 	char buf[1];
 	int	fd;
@@ -46,7 +46,7 @@ int		size_line(char **av)
 	while (line[count])
 		count++;
 	free(line);
-	return (count);
+	return (count - 1);
 }
 
 void	free_map(char **map)
@@ -70,19 +70,18 @@ char	**parse(char **av)
 	int l;
 	
 	l = 0;
-	map = (char **)malloc(sizeof(char *) * (n_line(av) + 1));
+	map = (char **)malloc(sizeof(char *) * (nbr_line(av) + 1));
 	if (!map)
 		return(NULL);
 	fd = open(av[1], O_RDONLY);
 	if (fd < 0)
 		ft_putstr_fd("Error\n", 2);
-	while (l < n_line(av))
+	while (l < nbr_line(av))
 	{
 		map[l] = get_next_line(fd);
 		l++;
 	}
 	map[l] = NULL;
-	//free_map(map);
 	close(fd);
 	return (map);
 }

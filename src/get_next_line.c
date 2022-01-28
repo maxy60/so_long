@@ -6,7 +6,7 @@
 /*   By: msainton <msainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/10 10:56:21 by msainton          #+#    #+#             */
-/*   Updated: 2022/01/27 16:56:55 by msainton         ###   ########.fr       */
+/*   Updated: 2022/01/28 15:41:55 by msainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,29 +57,28 @@ static char	*retgnl(char **dest, char *line, int ret)
 
 char	*get_next_line(int fd)
 {
-	char		buf[500];
+	char		buf[BUFFER_SIZE + 1];
 	static char	*dest;
 	char		*line;
 	int			ret;
 
 	ret = 1;
-	if (fd < 0 || read(fd, "", 0) != 0)
+	if (BUFFER_SIZE < 1 || fd < 0 || read(fd, "", 0) != 0)
 		return (ft_error(dest));
 	if (!dest)
-	{
+	{	
 		dest = (char *)malloc(sizeof(char) * 1);
 		dest[0] = '\0';
 	}
 	while (check(dest) == 0 && ret > 0)
 	{
-		ret = read(fd, buf, 500);
+		ret = read(fd, buf, BUFFER_SIZE);
 		if (ret == -1)
 			return (ft_error(dest));
 		buf[ret] = '\0';
-		dest = ft_strjoin_g(dest, buf);
+		dest = ft_strjoin(dest, buf);
 	}
 	line = stock_line(dest, ret);
 	dest = stock_rest(dest);
 	return (retgnl(&dest, line, ret));
 }
-

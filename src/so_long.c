@@ -24,23 +24,40 @@ int	handle_keypress(int keysym, t_data *data)
 {
 	if (keysym == 65307)
 		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-	
+	//else if (keysym == 119)
+	//	perso_up();
 	printf("Keypress: %d\n", keysym);
 	return (0);
 }
 
-int	handle_keyrelease(int keysym, void *data)
+/*int	pos_perso(t_data *data, char **av)
 {
-	(void)data;
-	printf("Keyrelease: %d\n", keysym);
-	return (0);
-}
+	int		i;
+	int		j;
+	char	**map;
+	int		n_line = nbr_line(av);
 
-void	put_img(t_data *data, int w, int h)
+	j = 0;
+	map = parse(av);
+	while (j < n_line)
+	{
+		i = 0;
+		while (i != 'P')
+			i++;
+		j++;
+	}
+	int w = i * 64;
+	int h = (j - 1) * 64;
+	put_img(data, w, h, "./textures/perso_back.XPM");
+	free_map(map);
+	return (0);
+}*/
+
+void	put_img(t_data *data, int w, int h, char *textures)
 {
-	data->mob_face.img = mlx_xpm_file_to_image(data->mlx_ptr, "./textures/floor.XPM", &data->mob_face.width, &data->mob_face.height);
-	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->mob_face.img, w, h);
-	mlx_destroy_image(data->mlx_ptr, data->mob_face.img);
+	data->image.img = mlx_xpm_file_to_image(data->mlx_ptr, textures, &data->image.width, &data->image.height);
+	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->image.img, w, h);
+	mlx_destroy_image(data->mlx_ptr, data->image.img);
 }
 
 int	do_map(t_data *data, char **av)
@@ -50,21 +67,28 @@ int	do_map(t_data *data, char **av)
 	int	w;
 	int	h;
 	char **map;
-	int	line = n_line(av);
+	int	n_line = nbr_line(av);
+	int	s_line = size_line(av);
 
-	i = 0;
 	j = 0;
 	map = parse(av);
-	put_img(data, 0, 0);
-	put_img(data, 1088, 0);
-	while (j < line)
+	while (j < n_line)
 	{
 		h = 64 * j;
 		i = 0;
-		while (map[j][i])
+		while (i < s_line)
 		{
 			w = 64 * i;
-			put_img(data, w, h);
+			if (map[j][i] == '0')
+				put_img(data, w, h, "./textures/floor.XPM");
+			else if (map[j][i] == '1')
+				put_img(data, w, h, "./textures/trap.XPM");
+			else if (map[j][i] == 'P')
+				put_img(data, w, h, "./textures/perso_face.XPM");
+			else if (map[j][i] == 'C')
+				put_img(data, w, h, "./textures/item.XPM");
+			else if (map[j][i] == 'E')
+				put_img(data, w, h, "./textures/exit.XPM");
 			i++;
 		}
 		j++;
@@ -73,10 +97,12 @@ int	do_map(t_data *data, char **av)
 	return (0);
 }
 
+
+
 void	create_window(t_data *data, char **av)
 {
 	data->x = size_line(av) * SIZE_IMG;
-	data->y = n_line(av) * SIZE_IMG;
+	data->y = nbr_line(av) * SIZE_IMG;
 }
 
 int try(t_data *data, char **av)
@@ -93,14 +119,11 @@ int try(t_data *data, char **av)
 	}
 	mlx_loop_hook(data->mlx_ptr, &handle_no_event, data);
 	do_map(data, av);
-	//data->mob_face.img = mlx_xpm_file_to_image(data->mlx_ptr, "./textures/mob_face.XPM", &data->mob_face.width, &data->mob_face.height);
-	//mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->mob_face.img, 0, 0);
+	//pos_perso(data, av);
 	mlx_key_hook(data->win_ptr, &handle_input, data);
 	mlx_hook(data->win_ptr, KeyPress, KeyPressMask, &handle_keypress, data);
-	mlx_hook(data->win_ptr, KeyRelease, KeyReleaseMask, &handle_keyrelease, data);
 	mlx_loop(data->mlx_ptr);
 
-	//mlx_destroy_image(data->mlx_ptr, data->mob_face.img);
 	//mlx_destroy_window(data->mlx_ptr, data->win_ptr);
 	mlx_destroy_display(data->mlx_ptr);
 	free(data->mlx_ptr);
