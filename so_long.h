@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msainton <msainton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 11:51:44 by msainton          #+#    #+#             */
-/*   Updated: 2022/01/28 17:42:08 by msainton         ###   ########.fr       */
+/*   Updated: 2022/02/02 17:30:04 by maxime           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int		nbr_line(char **av);
 int     size_line(char **av);
 void	free_map(char **map);
 void	put_img(t_data *data, int w, int h, char *textures);
+void	pos_perso(t_data *data, char **av);
 char	**parse(char **av);
 int     main(int ac, char **av);
 
