@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maxime <maxime@student.42.fr>              +#+  +:+       +#+        */
+/*   By: msainton <msainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 11:51:44 by msainton          #+#    #+#             */
-/*   Updated: 2022/02/02 17:30:04 by maxime           ###   ########.fr       */
+/*   Updated: 2022/02/03 18:05:31 by msainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,9 @@ typedef struct s_data
 {
 	void	*mlx_ptr;
 	void	*win_ptr;
+	char	**map;
+	int		w;
+	int		h;
     int     x;
     int     y;
 	t_img	image;
@@ -50,7 +53,8 @@ int		nbr_line(char **av);
 int     size_line(char **av);
 void	free_map(char **map);
 void	put_img(t_data *data, int w, int h, char *textures);
-void	pos_perso(t_data *data, char **av);
+void	pos_perso(t_data *data);
+void	do_map(t_data *data);
 char	**parse(char **av);
 int     main(int ac, char **av);
 

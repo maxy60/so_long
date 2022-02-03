@@ -17,50 +17,48 @@ int handle_input(int keysym, t_data *data)
 {
 	if (keysym == 65307)
 		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
+	if (keysym == 119)
+		pos_perso(data);
 	return (0);
 }
 
-int	handle_keypress(int keysym, t_data *data, char **av)
+int	handle_keypress(int keysym, t_data *data)
 {
 	if (keysym == 65307)
 		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-	if (keysym == 122)
-		pos_perso(data, av);
+	if (keysym == 119)
+		pos_perso(data);
 	printf("Keypress: %d\n", keysym);
 	return (0);
 }
 
-void	pos_perso(t_data *data, char **av)
+void	pos_perso(t_data *data)
 {
 	int		i;
 	int		j;
-	char	**map;
-	int		n_line = nbr_line(av);
+	int		n_line;
 
 	j = 0;
 	i = 0;
-	map = parse(av);
-	while (j <= n_line && map[j][i] != 'P')
+	n_line = data->h;
+	while (j <= n_line && data->map[j][i] != 'P')
 	{
 		i = 0;
-		while (map[j][i])
+		while (data->map[j][i])
 		{
-			if (map[j][i] == 'P')
+			if (data->map[j][i] == 'P')
 				break;
 			i++;
 		}
-		if (map[j][i] == 'P')
+		if (data->map[j][i] == 'P')
 			break;
 		j++;
 	}
-	int w = i * 64;
-	int h = (j - 1) * 64;
-	printf("w = %d\n", w);
+	data->map[j][i] = 0;
+	data->map[j - 1][i] = 'P';
 	printf("i = %d\n", i);
-	printf("h = %d\n", h);
 	printf("j = %d\n", j);
-	put_img(data, w, h, "./textures/perso_back.XPM");
-	free_map(map);
+	do_map(data);
 }
 
 void	put_img(t_data *data, int w, int h, char *textures)
@@ -70,18 +68,16 @@ void	put_img(t_data *data, int w, int h, char *textures)
 	mlx_destroy_image(data->mlx_ptr, data->image.img);
 }
 
-int	do_map(t_data *data, char **av)
+void	do_map(t_data *data)
 {
 	int	i;
 	int	j;
 	int	w;
 	int	h;
-	char **map;
-	int	n_line = nbr_line(av);
-	int	s_line = size_line(av);
+	int	n_line = data->h;
+	int	s_line = data->w;
 
 	j = 0;
-	map = parse(av);
 	while (j < n_line)
 	{
 		h = 64 * j;
@@ -89,22 +85,20 @@ int	do_map(t_data *data, char **av)
 		while (i < s_line)
 		{
 			w = 64 * i;
-			if (map[j][i] == '0')
+			if (data->map[j][i] == '0')
 				put_img(data, w, h, "./textures/floor.XPM");
-			else if (map[j][i] == '1')
+			else if (data->map[j][i] == '1')
 				put_img(data, w, h, "./textures/trap.XPM");
-			else if (map[j][i] == 'P')
+			else if (data->map[j][i] == 'P')
 				put_img(data, w, h, "./textures/perso_face.XPM");
-			else if (map[j][i] == 'C')
+			else if (data->map[j][i] == 'C')
 				put_img(data, w, h, "./textures/item.XPM");
-			else if (map[j][i] == 'E')
+			else if (data->map[j][i] == 'E')
 				put_img(data, w, h, "./textures/exit.XPM");
 			i++;
 		}
 		j++;
 	}
-	free_map(map);
-	return (0);
 }
 
 
@@ -113,6 +107,8 @@ void	create_window(t_data *data, char **av)
 {
 	data->x = size_line(av) * SIZE_IMG;
 	data->y = nbr_line(av) * SIZE_IMG;
+	data->w = size_line(av);
+	data->h = nbr_line(av);
 }
 
 int try(t_data *data, char **av)
@@ -128,10 +124,9 @@ int try(t_data *data, char **av)
 		return (MLX_ERROR);
 	}
 	mlx_loop_hook(data->mlx_ptr, &handle_no_event, data);
-	do_map(data, av);
-//	pos_perso(data, av);
+	do_map(data);
 	mlx_key_hook(data->win_ptr, &handle_input, data);
-	mlx_hook(data->win_ptr, KeyPress, KeyPressMask, &handle_keypress, data);
+	//mlx_hook(data->win_ptr, KeyPress, KeyPressMask, &handle_keypress, data);
 	mlx_loop(data->mlx_ptr);
 	//mlx_destroy_window(data->mlx_ptr, data->win_ptr);
 	mlx_destroy_display(data->mlx_ptr);
@@ -144,10 +139,10 @@ int main(int ac, char **av)
 {
 	t_img	test;
 	t_data	data;
+	data.map = parse(av);
 	init_img(&test);
 	if (ac == 2)
 	{
-		//parse(av);
 		try(&data, av);
 	}
 	else
