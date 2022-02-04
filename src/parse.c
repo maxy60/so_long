@@ -6,7 +6,7 @@
 /*   By: msainton <msainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 15:57:41 by msainton          #+#    #+#             */
-/*   Updated: 2022/02/03 17:32:29 by msainton         ###   ########.fr       */
+/*   Updated: 2022/02/04 15:07:31 by msainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int		size_line(char **av)
 	while (line[count])
 		count++;
 	free(line);
+	close(fd);
 	return (count - 1);
 }
 
@@ -84,4 +85,26 @@ char	**parse(char **av)
 	map[l] = NULL;
 	close(fd);
 	return (map);
+}
+
+int	collectible(t_data *data)
+{
+	int	i;
+	int	j;
+	int c;
+
+	j = 0;
+	c = 0;
+	while (data->map[j])
+	{
+		i = 0;
+		while (data->map[j][i])
+		{
+			if (data->map[j][i] == 'C')
+				c++;
+			i++;
+		}
+		j++;
+	}
+	return (c);
 }

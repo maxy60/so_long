@@ -6,7 +6,7 @@
 /*   By: msainton <msainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/10 10:59:12 by msainton          #+#    #+#             */
-/*   Updated: 2022/01/28 15:41:41 by msainton         ###   ########.fr       */
+/*   Updated: 2022/02/04 15:27:09 by msainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,20 +70,21 @@ char	*stock_rest(char *dest)
 	char	*str;
 
 	a = 0;
-	while (dest[a])
+	while (dest[a] != '\n' && dest[a] != '\0')
 		a++;
-	b = 0;
-	while (dest[b] != '\n' && dest[b] != '\0')
-		b++;
-	if (dest[b] == '\n')
-		b += 1;
-	str = (char *)malloc(sizeof(char) * (a - b + 1));
+	if (dest[a] == 0 || dest[a + 1] == 0)
+	{
+		free(dest);
+		return (NULL);
+	}
+	a++;
+	str = (char *)malloc(sizeof(char) * (ft_strlen(dest + a) + 1));
 	if (!str)
 		return (NULL);
-	a = 0;
-	while (dest[b] != '\0')
-		str[a++] = dest[b++];
-	str[a] = '\0';
+	b = 0;
+	while (dest[a])
+		str[b++] = dest[a++];
+	str[b] = 0;
 	free(dest);
 	dest = NULL;
 	return (str);
