@@ -6,7 +6,7 @@
 /*   By: msainton <msainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 15:57:41 by msainton          #+#    #+#             */
-/*   Updated: 2022/02/04 15:07:31 by msainton         ###   ########.fr       */
+/*   Updated: 2022/02/08 19:07:02 by msainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,49 @@ void	free_map(char **map)
 	return ;
 }
 
+int check_size_line(char **av)
+{
+	char	**map;
+	int s_line;
+	int	l;
+	int size_l;
+	int	n_line;
+
+	l = 1;
+	n_line = nbr_line(av);
+	s_line = size_line(av);
+	map = parse(av);
+	while (l < n_line - 1)
+	{
+		size_l = ft_strlen(map[l]) - 1;
+		if (size_l == s_line)
+			l++;
+		else
+			return (1);		
+	}
+	size_l = ft_strlen(map[l]);
+	if (size_l == s_line)
+		return (0);
+	else
+		return (1);
+}
+
+int check_map(char *str)
+{
+	int	i;
+	
+	i = 0;
+	if (str[0] != '1' || str[ft_strlen(str) - 2] != '1')
+		return (1);
+	while (str[i])
+	{
+		if (str[i] != '0' && str[i] != '1' && str[i] != 'P' && str[i] != 'C' && str[i] != 'E' && str[i] != '\n')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 char	**parse(char **av)
 {
 	char **map;
@@ -80,6 +123,11 @@ char	**parse(char **av)
 	while (l < nbr_line(av))
 	{
 		map[l] = get_next_line(fd);
+		if (check_map(map[l]) == 1)
+		{
+			free_map(map);
+			return (NULL);
+		}
 		l++;
 	}
 	map[l] = NULL;

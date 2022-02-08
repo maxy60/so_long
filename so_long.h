@@ -6,7 +6,7 @@
 /*   By: msainton <msainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 11:51:44 by msainton          #+#    #+#             */
-/*   Updated: 2022/02/04 14:42:37 by msainton         ###   ########.fr       */
+/*   Updated: 2022/02/08 18:46:52 by msainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ typedef struct s_data
     int     y;
 	int		collectible;
 	int		nbr_collectible;
+	int		nbr_pas;
+	char	*nbr_pas_aff;
 	t_img	image;
 }   t_data;
 
@@ -65,6 +67,7 @@ void	move_down(t_data *data);
 void	move_left(t_data *data);
 void	move_right(t_data *data);
 
+int		check_size_line(char **av);
 void	do_map(t_data *data);
 char	**parse(char **av);
 int     main(int ac, char **av);

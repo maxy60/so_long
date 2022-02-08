@@ -10,6 +10,7 @@ void	init_data(t_data *data, char **av)
 	data->pers_y = 0;
 	data->collectible = 0;
 	data->nbr_collectible = collectible(data);
+	data->nbr_pas = 0;
 
 }
 
@@ -26,6 +27,13 @@ int	handle_no_event(void *data)
 	return (0);
 }
 
+int	handle_cross(t_data *data)
+{
+	mlx_loop_end(data->mlx_ptr);
+	mlx_destroy_window(data->mlx_ptr, data->win_ptr);
+	return (0);
+}
+
 int	handle_keypress(int keysym, t_data *data)
 {
 	if (keysym == 65307)
@@ -38,8 +46,8 @@ int	handle_keypress(int keysym, t_data *data)
 		move_down(data);
 	if (keysym == 100)
 		move_right(data);
-	
-	printf("Keypress: %d\n", keysym);
+	data->nbr_pas += 1;
+	printf("mouv: %d\n", data->nbr_pas);
 	return (0);
 }
 
@@ -170,7 +178,9 @@ void	do_map(t_data *data)
 	int	h;
 	int	n_line = data->n_line;
 	int	s_line = data->size_l;
+//	int color;
 
+//	color = 0xFFFFFFF;
 	j = 0;
 	while (j < n_line)
 	{
@@ -193,6 +203,10 @@ void	do_map(t_data *data)
 		}
 		j++;
 	}
+	mlx_string_put(data->mlx_ptr, data->win_ptr, 25, 60, 0xff0000, "Moves :");
+	data->nbr_pas_aff = ft_itoa(data->nbr_pas);
+	mlx_string_put(data->mlx_ptr, data->win_ptr, 75, 60, 0xff0000, data->nbr_pas_aff);
+	free(data->nbr_pas_aff);
 }
 
 
@@ -200,7 +214,6 @@ void	do_map(t_data *data)
 
 int try(t_data *data)
 {
-	
 	data->mlx_ptr = mlx_init();
 	if (data->mlx_ptr == NULL)
 		return (MLX_ERROR);
@@ -210,12 +223,14 @@ int try(t_data *data)
 		free(data->win_ptr);
 		return (MLX_ERROR);
 	}
-	mlx_loop_hook(data->mlx_ptr, &handle_no_event, data);
 	do_map(data);
-	//mlx_key_hook(data->win_ptr, &handle_input, data);
+	mlx_loop_hook(data->mlx_ptr, &handle_no_event, data);
+	mlx_hook(data->win_ptr, 2, 1L << 0, &handle_keypress, data);
+	mlx_hook(data->win_ptr, 17, 1L << 0, &handle_cross, data);
 	mlx_hook(data->win_ptr, KeyPress, KeyPressMask, &handle_keypress, data);
 	mlx_loop(data->mlx_ptr);
-//	mlx_destroy_window(data->mlx_ptr, data->win_ptr);
+	// mlx_destroy_window(data->mlx_ptr, data->win_ptr);
+	mlx_loop_end(data->mlx_ptr);
 	mlx_destroy_display(data->mlx_ptr);
 	free_map(data->map);
 	free(data->mlx_ptr);
@@ -227,11 +242,22 @@ int main(int ac, char **av)
 {
 	t_img	test;
 	t_data	data;
-	data.map = parse(av);
-	init_img(&test);
-	init_data(&data, av);
+
+	char **error;
+
+	error = parse(av);
 	if (ac == 2)
 	{
+		if (error == NULL || check_size_line(av) == 1)
+		{
+			printf("Error: the map has incorrect characters or it is not rectangular\n");
+			free_map(error);
+			return (0);
+		}
+		free_map(error);
+		data.map = parse(av);
+		init_img(&test);
+		init_data(&data, av);
 		try(&data);
 	}
 	else
