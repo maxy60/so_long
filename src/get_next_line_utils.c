@@ -6,7 +6,7 @@
 /*   By: msainton <msainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/10 10:59:12 by msainton          #+#    #+#             */
-/*   Updated: 2022/02/04 15:27:09 by msainton         ###   ########.fr       */
+/*   Updated: 2022/02/09 14:34:21 by msainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*ft_strjoin(const char *s1, const char *s2)
 	return (dest);
 }
 
-char	*stock_line(char *dest, int ret)
+char	*stock_line(char *dest)
 {
 	size_t	a;
 	char	*str;
@@ -57,8 +57,6 @@ char	*stock_line(char *dest, int ret)
 		str[a] = dest[a];
 		a++;
 	}
-	if (ret > 0)
-		str[a++] = '\n';
 	str[a] = '\0';
 	return (str);
 }

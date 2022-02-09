@@ -6,7 +6,7 @@
 /*   By: msainton <msainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 15:57:41 by msainton          #+#    #+#             */
-/*   Updated: 2022/02/08 19:07:02 by msainton         ###   ########.fr       */
+/*   Updated: 2022/02/09 16:08:05 by msainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,19 @@ int	nbr_line(char **av)
 	int	ret;
 
 	ret = 1;
-	count = 1;
+	count = 0;
 	fd = open(av[1], O_RDONLY);
 	while (ret > 0)
 	{
 		ret = read(fd, buf, 1);
 		if (ret == -1)
 			return (-1);
-		if (buf[0] == '\n' || buf[0] == '\0')
+		if (buf[0] == '\n')
 			count++;
 	}
 	close(fd);
-	return (count);
+	fflush(stdout);
+	return (count - 1);
 }
 
 int		size_line(char **av)
@@ -47,7 +48,7 @@ int		size_line(char **av)
 		count++;
 	free(line);
 	close(fd);
-	return (count - 1);
+	return (count);
 }
 
 void	free_map(char **map)
@@ -64,9 +65,30 @@ void	free_map(char **map)
 	return ;
 }
 
-int check_size_line(char **av)
+int	wall(t_data *data)
 {
-	char	**map;
+	int	i;
+
+	i = 0;
+	while (i <= data->size_l - 1)
+	{
+		if (data->map[0][i] != '1')
+			return (1);
+		i++;
+	}
+	i = 0;
+	while (i <= data->size_l - 1)
+	{
+		if (data->map[data->n_line - 1][i] != '1')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+
+int check_size_line(char **map, char **av)
+{
 	int s_line;
 	int	l;
 	int size_l;
@@ -75,10 +97,9 @@ int check_size_line(char **av)
 	l = 1;
 	n_line = nbr_line(av);
 	s_line = size_line(av);
-	map = parse(av);
 	while (l < n_line - 1)
 	{
-		size_l = ft_strlen(map[l]) - 1;
+		size_l = ft_strlen(map[l]);
 		if (size_l == s_line)
 			l++;
 		else
@@ -91,28 +112,99 @@ int check_size_line(char **av)
 		return (1);
 }
 
-int check_map(char *str)
+int	count_elem(int c, int e)
+{
+	if (c < 1)
+		return (1);
+	if (e != 2)
+		return (1);
+	return (0);
+}
+
+int	check_element(t_data *data)
 {
 	int	i;
-	
+	int	j;
+	int	c;
+	int	e;
+	char	*str;
+
 	i = 0;
-	if (str[0] != '1' || str[ft_strlen(str) - 2] != '1')
-		return (1);
-	while (str[i])
+	e = 0;
+	c = 0;
+	while (i < data->n_line - 1)
 	{
-		if (str[i] != '0' && str[i] != '1' && str[i] != 'P' && str[i] != 'C' && str[i] != 'E' && str[i] != '\n')
-			return (1);
+		j = 0;
+		while (data->map[i][j])
+		{
+			str = data->map[i];
+			if (str[j] == 'C')
+				c++;
+			if (str[j] == 'P' || str[j] == 'E')
+				e++;
+			j++;
+		}
+		i++;
+	}
+	
+	return (count_elem(c, e));
+}
+
+int check_map(t_data *data)
+{
+	int	i;
+	int	j;
+	char	*str;
+	
+	i = 1;
+	while (i <= data->n_line - 1)
+	{
+		if (data->map[i][0] != '1' || data->map[i][data->size_l - 1] != '1')
+		return (1);
+		i++;
+	}
+	i = 0;
+	j = 0;
+	while (i < data->n_line - 1)
+	{
+		j = 0;
+		while (data->map[i][j])
+		{
+			str = data->map[i];
+			if (str[j] != '0' && str[j] != '1' && str[j] != 'P' && str[j] != 'C' && str[j] != 'E')
+				return (1);
+			j++;
+		}
 		i++;
 	}
 	return (0);
 }
+
+/*void	print_map(t_data *data)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (data->map[i])
+	{
+		j = 0;
+		while (data->map[i][j])
+		{
+			printf("%c ", data->map[i][j]);
+			j++;
+		}
+		printf("\n");
+		i++;
+	}
+}*/
 
 char	**parse(char **av)
 {
 	char **map;
 	int fd = 0;
 	int l;
-	
+
 	l = 0;
 	map = (char **)malloc(sizeof(char *) * (nbr_line(av) + 1));
 	if (!map)
@@ -123,11 +215,6 @@ char	**parse(char **av)
 	while (l < nbr_line(av))
 	{
 		map[l] = get_next_line(fd);
-		if (check_map(map[l]) == 1)
-		{
-			free_map(map);
-			return (NULL);
-		}
 		l++;
 	}
 	map[l] = NULL;

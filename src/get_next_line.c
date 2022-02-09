@@ -6,7 +6,7 @@
 /*   By: msainton <msainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/10 10:56:21 by msainton          #+#    #+#             */
-/*   Updated: 2022/01/28 15:41:55 by msainton         ###   ########.fr       */
+/*   Updated: 2022/02/09 14:34:42 by msainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ char	*get_next_line(int fd)
 		buf[ret] = '\0';
 		dest = ft_strjoin(dest, buf);
 	}
-	line = stock_line(dest, ret);
+	line = stock_line(dest);
 	dest = stock_rest(dest);
 	return (retgnl(&dest, line, ret));
 }

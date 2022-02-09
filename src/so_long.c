@@ -31,7 +31,7 @@ int	handle_cross(t_data *data)
 {
 	mlx_loop_end(data->mlx_ptr);
 	mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-	return (0);
+	exit(0);
 }
 
 int	handle_keypress(int keysym, t_data *data)
@@ -178,9 +178,7 @@ void	do_map(t_data *data)
 	int	h;
 	int	n_line = data->n_line;
 	int	s_line = data->size_l;
-//	int color;
 
-//	color = 0xFFFFFFF;
 	j = 0;
 	while (j < n_line)
 	{
@@ -235,6 +233,52 @@ int try(t_data *data)
 	free_map(data->map);
 	free(data->mlx_ptr);
 	exit(0);
+}
+
+int	files_name(char *str)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (str[j])
+		j++;
+	while (str[i] != '.' || i == j)
+		i++;
+	if (i + 4 != j)
+		return (1);
+	if (str[i + 1] != 'b' || str[i + 2] != 'e' || str[i + 3] != 'r')
+		return (1);
+	return (0);
+}
+
+int	if_is_file(char *str)
+{
+	int fd;
+	
+	fd = open(str, O_DIRECTORY);
+	if (fd < 0)
+	{
+		close(fd);
+		return (0);
+	}
+	close(fd);
+	return (1);
+}
+
+int	check_file(char *str)
+{
+	int fd;
+
+	fd = open(str, O_RDONLY);
+	if (fd < 0)
+	{
+		ft_putstr_fd("files cannot be read\n", 2);
+		close(fd);
+		return (1);
+	}
+	close(fd);
 	return (0);
 }
 
@@ -243,21 +287,17 @@ int main(int ac, char **av)
 	t_img	test;
 	t_data	data;
 
-	char **error;
-
-	error = parse(av);
-	if (ac == 2)
+	if (ac == 2 && check_file(av[1]) == 0 && files_name(av[1]) == 0 && if_is_file(av[1]) == 0)
 	{
-		if (error == NULL || check_size_line(av) == 1)
+		data.map = parse(av);
+		init_data(&data, av);
+		if (data.map == NULL || check_size_line(data.map, av) == 1 || wall(&data) == 1 || check_map(&data) == 1 || check_element(&data) == 1)
 		{
 			printf("Error: the map has incorrect characters or it is not rectangular\n");
-			free_map(error);
+			free_map(data.map);
 			return (0);
 		}
-		free_map(error);
-		data.map = parse(av);
 		init_img(&test);
-		init_data(&data, av);
 		try(&data);
 	}
 	else

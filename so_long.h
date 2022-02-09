@@ -6,7 +6,7 @@
 /*   By: msainton <msainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 11:51:44 by msainton          #+#    #+#             */
-/*   Updated: 2022/02/08 18:46:52 by msainton         ###   ########.fr       */
+/*   Updated: 2022/02/09 14:34:12 by msainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ typedef struct s_data
 	t_img	image;
 }   t_data;
 
-char    *stock_line(char *dest, int ret);
+char    *stock_line(char *dest);
 char    *stock_rest(char *dest);
 char    *ft_error(char *dest);
 char    *get_next_line(int fd);
@@ -67,7 +67,13 @@ void	move_down(t_data *data);
 void	move_left(t_data *data);
 void	move_right(t_data *data);
 
-int		check_size_line(char **av);
+int		check_size_line(char **map, char **av);
+int		wall(t_data *data);
+int		check_map(t_data *data);
+int		check_element(t_data *data);
+
+void	print_map(t_data *data);
+
 void	do_map(t_data *data);
 char	**parse(char **av);
 int     main(int ac, char **av);
