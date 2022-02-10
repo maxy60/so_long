@@ -46,121 +46,7 @@ int	handle_keypress(int keysym, t_data *data)
 		move_down(data);
 	if (keysym == 100)
 		move_right(data);
-	data->nbr_pas += 1;
-	printf("mouv: %d\n", data->nbr_pas);
 	return (0);
-}
-
-
-
-void	pos_perso(t_data *data)
-{
-	int		i;
-	int		j;
-	int		n_line;
-
-	j = 0;
-	i = 0;
-	n_line = data->n_line;
-	while (j <= n_line && data->map[j][i] != 'P')
-	{
-		i = 0;
-		while (data->map[j][i])
-		{
-			if (data->map[j][i] == 'P')
-				break;
-			i++;
-		}
-		if (data->map[j][i] == 'P')
-			break;
-		j++;
-	}
-	data->pers_x = i;
-	data->pers_y = j;
-}
-
-void	move_up(t_data *data)
-{
-	pos_perso(data);
-	data->pers_y -= 1;
-	if (data->map[data->pers_y][data->pers_x] == '0')
-	{
-		data->map[data->pers_y + 1][data->pers_x] = '0';
-		data->map[data->pers_y][data->pers_x] = 'P';
-		do_map(data);
-	}
-	else if (data->map[data->pers_y][data->pers_x] == 'C')
-	{
-		data->map[data->pers_y + 1][data->pers_x] = '0';
-		data->map[data->pers_y][data->pers_x] = 'P';
-		data->collectible += 1;
-		do_map(data);
-	}
-	else if (data->map[data->pers_y][data->pers_x] == 'E' && data->collectible == data->nbr_collectible)
-		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-}
-
-void	move_down(t_data *data)
-{
-	pos_perso(data);
-	data->pers_y += 1;
-	if (data->map[data->pers_y][data->pers_x] == '0')
-	{
-		data->map[data->pers_y - 1][data->pers_x] = '0';
-		data->map[data->pers_y][data->pers_x] = 'P';
-		do_map(data);
-	}
-	else if (data->map[data->pers_y][data->pers_x] == 'C')
-	{
-		data->map[data->pers_y - 1][data->pers_x] = '0';
-		data->map[data->pers_y][data->pers_x] = 'P';
-		data->collectible += 1;
-		do_map(data);
-	}
-	else if (data->map[data->pers_y][data->pers_x] == 'E' && data->collectible == data->nbr_collectible)
-		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-}
-
-void	move_right(t_data *data)
-{
-	pos_perso(data);
-	data->pers_x += 1;
-	if (data->map[data->pers_y][data->pers_x] == '0')
-	{
-		data->map[data->pers_y][data->pers_x - 1] = '0';
-		data->map[data->pers_y][data->pers_x] = 'P';
-		do_map(data);
-	}
-	else if (data->map[data->pers_y][data->pers_x] == 'C')
-	{
-		data->map[data->pers_y][data->pers_x - 1] = '0';
-		data->map[data->pers_y][data->pers_x] = 'P';
-		data->collectible += 1;
-		do_map(data);
-	}
-	else if (data->map[data->pers_y][data->pers_x] == 'E' && data->collectible == data->nbr_collectible)
-		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-}
-
-void	move_left(t_data *data)
-{
-	pos_perso(data);
-	data->pers_x -= 1;
-	if (data->map[data->pers_y][data->pers_x] == '0')
-	{
-		data->map[data->pers_y][data->pers_x + 1] = '0';
-		data->map[data->pers_y][data->pers_x] = 'P';
-		do_map(data);
-	}
-	else if (data->map[data->pers_y][data->pers_x] == 'C')
-	{
-		data->map[data->pers_y][data->pers_x + 1] = '0';
-		data->map[data->pers_y][data->pers_x] = 'P';
-		data->collectible += 1;
-		do_map(data);
-	}
-	else if (data->map[data->pers_y][data->pers_x] == 'E' && data->collectible == data->nbr_collectible)
-		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
 }
 
 void	put_img(t_data *data, int w, int h, char *textures)
@@ -246,6 +132,8 @@ int	files_name(char *str)
 		j++;
 	while (str[i] != '.' || i == j)
 		i++;
+	if (i == 0 || str[i - 1] == '/')
+		return(1);
 	if (i + 4 != j)
 		return (1);
 	if (str[i + 1] != 'b' || str[i + 2] != 'e' || str[i + 3] != 'r')
@@ -263,6 +151,7 @@ int	if_is_file(char *str)
 		close(fd);
 		return (0);
 	}
+	ft_putstr_fd("it is not a file\n", 2);
 	close(fd);
 	return (1);
 }

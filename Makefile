@@ -2,6 +2,7 @@ SRCS		= src/so_long.c				\
 			  src/parse.c				\
 			  src/get_next_line_utils.c	\
 			  src/get_next_line.c		\
+			  src/move_pers.c
 
 OBJS		= ${SRCS:.c=.o} 
 
