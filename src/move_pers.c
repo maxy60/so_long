@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   move_pers.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: msainton <msainton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/10 13:23:22 by user42            #+#    #+#             */
-/*   Updated: 2022/02/10 13:26:22 by user42           ###   ########.fr       */
+/*   Created: 2022/02/10 15:42:22 by msainton          #+#    #+#             */
+/*   Updated: 2022/02/10 16:21:18 by msainton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ void	pos_perso(t_data *data)
 		while (data->map[j][i])
 		{
 			if (data->map[j][i] == 'P')
-				break;
+				break ;
 			i++;
 		}
 		if (data->map[j][i] == 'P')
-			break;
+			break ;
 		j++;
 	}
 	data->pers_x = i;
@@ -59,7 +59,8 @@ void	move_up(t_data *data)
 		printf("mouv: %d\n", data->nbr_pas);
 		do_map(data);
 	}
-	else if (data->map[data->pers_y][data->pers_x] == 'E' && data->collectible == data->nbr_collectible)
+	else if (data->map[data->pers_y][data->pers_x] == 'E'
+		&& data->collectible == data->nbr_collectible)
 		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
 }
 
@@ -84,7 +85,8 @@ void	move_down(t_data *data)
 		printf("mouv: %d\n", data->nbr_pas);
 		do_map(data);
 	}
-	else if (data->map[data->pers_y][data->pers_x] == 'E' && data->collectible == data->nbr_collectible)
+	else if (data->map[data->pers_y][data->pers_x] == 'E'
+		&& data->collectible == data->nbr_collectible)
 		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
 }
 
@@ -109,7 +111,8 @@ void	move_right(t_data *data)
 		printf("mouv: %d\n", data->nbr_pas);
 		do_map(data);
 	}
-	else if (data->map[data->pers_y][data->pers_x] == 'E' && data->collectible == data->nbr_collectible)
+	else if (data->map[data->pers_y][data->pers_x] == 'E'
+		&& data->collectible == data->nbr_collectible)
 		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
 }
 
@@ -134,6 +137,7 @@ void	move_left(t_data *data)
 		printf("mouv: %d\n", data->nbr_pas);
 		do_map(data);
 	}
-	else if (data->map[data->pers_y][data->pers_x] == 'E' && data->collectible == data->nbr_collectible)
+	else if (data->map[data->pers_y][data->pers_x] == 'E'
+		&& data->collectible == data->nbr_collectible)
 		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
 }

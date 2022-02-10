@@ -1,8 +1,12 @@
 SRCS		= src/so_long.c				\
 			  src/parse.c				\
+			  src/parse2.c				\
+			  src/annexe.c				\
 			  src/get_next_line_utils.c	\
 			  src/get_next_line.c		\
-			  src/move_pers.c
+			  src/move_pers.c			\
+			  src/g_error.c				\
+			  src/render_image.c
 
 OBJS		= ${SRCS:.c=.o} 
 
@@ -22,6 +26,7 @@ INCLUDES	= -I./libft
 
 all:		${NAME}
 
+bonus:		${NAME}
 
 ${NAME}:	$(OBJS)
 			make bonus -C ./libft
